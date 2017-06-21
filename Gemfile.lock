@@ -1,0 +1,50 @@
+PATH
+  remote: .
+  specs:
+    tap-vend (0.0.1)
+      activesupport
+      concurrent-ruby
+      faraday
+      faraday_middleware
+      glutton_ratelimit
+      peach
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (5.1.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (~> 0.7)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
+    byebug (9.0.6)
+    concurrent-ruby (1.0.5)
+    dotenv (2.2.0)
+    faraday (0.12.1)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.11.0.1)
+      faraday (>= 0.7.4, < 1.0)
+    glutton_ratelimit (0.2.0)
+    i18n (0.8.4)
+    minitest (5.10.2)
+    multipart-post (2.0.0)
+    peach (0.5.1)
+    pg (0.20.0)
+    thread_safe (0.3.6)
+    tzinfo (1.2.3)
+      thread_safe (~> 0.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  byebug
+  dotenv
+  pg
+  tap-vend!
+
+RUBY VERSION
+   ruby 2.3.3p222
+
+BUNDLED WITH
+   1.14.6

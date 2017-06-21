@@ -1,0 +1,89 @@
+#!/usr/bin/env ruby
+
+require 'bundler'
+
+Bundler.require
+
+require 'concurrent'
+require 'faraday'
+require 'faraday_middleware'
+require 'optparse'
+require 'peach'
+
+require './lib/client'
+require './lib/schema'
+require './lib/models/base'
+
+require './lib/models/consignment'
+require './lib/models/customer'
+require './lib/models/customer_group'
+require './lib/models/inventory'
+require './lib/models/outlet'
+require './lib/models/outlet_attribute'
+require './lib/models/outlet_tax'
+require './lib/models/payment_type'
+require './lib/models/price_book'
+require './lib/models/price_book_product'
+require './lib/models/product'
+require './lib/models/product_type'
+require './lib/models/register'
+require './lib/models/sale'
+require './lib/models/supplier'
+require './lib/models/tax'
+require './lib/models/user'
+
+config_file = nil
+state_file = nil
+verbose = false
+
+parser = OptionParser.new do |opts|
+  opts.banner = "Usage: #{$0} [options]"
+  opts.on('-c', '--config config_file', 'Set config file (json)') do |config|
+    config_file = config
+  end
+
+  opts.on('-s', '--state state_file', 'Set state file (json)') do |state|
+    state_file = state
+  end
+
+  opts.on('-h', '--help', 'Displays help') do
+    puts opts
+    exit
+  end
+
+  opts.on('-v', '--verbose', 'Enables verbose logging to STDERR') do
+    verbose = true
+  end
+end
+
+parser.parse!
+
+if config_file.nil?
+  puts parser
+  exit
+end
+
+config = JSON.parse(File.read(config_file))
+
+state = {}
+if state_file
+  state = JSON.parse(File.read(state_file))
+end
+
+
+Client.requests_per_second = config['requests_per_second']
+
+client = Client.new(
+  config['store'],
+  config['token'],
+  verbose,
+  state
+)
+
+Models::Base.subclasses.each do |model|
+  client.output model.schema
+end
+
+Models::Base.subclasses.peach(50) do |model|
+  client.process model
+end
