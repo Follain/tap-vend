@@ -7,6 +7,7 @@ module Models
 
     schema do
       string :id
+      timestamps
     end
 
     def transform
@@ -22,6 +23,10 @@ module Models
   class Consignment < Base
     schema do
       string :id
+      datetime :consignment_date
+      datetime :due_at
+      datetime :received_at
+      timestamps
     end
 
     def extra_records

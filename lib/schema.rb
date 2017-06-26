@@ -8,6 +8,18 @@ Schema = Struct.new(:stream) do
     end
   end
 
+  def datetime(name)
+    properties[name.to_sym] = {
+      type: [:string, :null],
+      format: 'date-time'
+    }
+  end
+
+  def timestamps
+    datetime :created_at
+    datetime :updated_at
+  end
+
   def properties
     @properties ||= {}
   end

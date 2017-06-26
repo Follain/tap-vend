@@ -6,11 +6,13 @@ module Models
       string :username
       string :displayname
       string :email, nil: true
-      string :email_verified_at, nil: true
+      datetime :email_verified_at
       string :account_type
       string :created_at
       string :updated_at
-      string :deleted_at, nil: true
+      datetime :deleted_at
+      datetime :seen_at
+      timestamps
     end
 
     def transform
