@@ -46,6 +46,7 @@ Client = Struct.new(:store, :token, :verbose, :state) do
   end
 
   def get(path, after: 0, page_size: 500)
+      log(path)
       connection.get("/api/2.0/#{path}", after: after, page_size: page_size).body
   end
 
